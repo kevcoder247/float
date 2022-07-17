@@ -1,0 +1,12 @@
+body{
+    background-color: grey;
+    color: white;
+}
+
+nav{
+    background-color: black;
+}
+
+nav .brand-logo{
+    padding-left: 2%;
+}
