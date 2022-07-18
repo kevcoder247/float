@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Item
 
 # Create your views here.
 
@@ -10,7 +11,7 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-
+'''
 #Seed Data
 class Item:
     def __init__(self, name, price, qty):
@@ -24,7 +25,13 @@ items = [
     Item('Car', '$99.99', 10),
     Item('Laptop', '$10.99', 3),
 ]
+'''
 
 def items_index(request):
-   #item = Item.objects.all()
-    return render(request, 'items/index.html', {'items': items})
+   items = Item.objects.all()
+   return render(request, 'items/index.html', {'items': items})
+
+
+def item_detail(request, item_id):
+    item = Item.objects.get(id=item_id)
+    return render(request, 'items/detail.html', {'item' : item})
