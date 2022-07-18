@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Item
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+from django.contrib.auth import login
 
 # Create your views here.
 
@@ -41,6 +41,10 @@ def item_detail(request, item_id):
 class ItemCreate(CreateView):
     model = Item
     fields = ['name', 'price', 'qty']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class ItemUpdate(UpdateView):
