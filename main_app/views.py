@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from .models import Item
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 
 # Create your views here.
 
@@ -35,3 +36,18 @@ def items_index(request):
 def item_detail(request, item_id):
     item = Item.objects.get(id=item_id)
     return render(request, 'items/detail.html', {'item' : item})
+
+#Class Based Views
+class ItemCreate(CreateView):
+    model = Item
+    fields = ['name', 'price', 'qty']
+
+
+class ItemUpdate(UpdateView):
+    model = Item
+    fields = ['name', 'price', 'qty']
+
+
+class ItemDelete(DeleteView):
+    model = Item
+    success_url = '/items/'
