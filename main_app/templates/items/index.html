@@ -1,5 +1,5 @@
 {%extends 'base.html'%} {%block content%}
-<h1>Items List</h1>
+<h1>My Items List</h1>
 {%for item in items%}
 <div class="card">
     <a href="{% url 'detail' item.id %}">

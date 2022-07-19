@@ -1,13 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Item
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
 def home(request):
-    return render(request,'home.html')
-
+    items = Item.objects.all()
+    return render(request,'home.html', {'items': items})
 
 def about(request):
     return render(request, 'about.html')
@@ -27,18 +30,18 @@ items = [
     Item('Laptop', '$10.99', 3),
 ]
 '''
-
+@login_required
 def items_index(request):
-   items = Item.objects.all()
+   items = Item.objects.filter(user=request.user)
    return render(request, 'items/index.html', {'items': items})
 
-
+@login_required
 def item_detail(request, item_id):
     item = Item.objects.get(id=item_id)
     return render(request, 'items/detail.html', {'item' : item})
 
 #Class Based Views
-class ItemCreate(CreateView):
+class ItemCreate(LoginRequiredMixin, CreateView):
     model = Item
     fields = ['name', 'price', 'qty']
 
@@ -47,11 +50,31 @@ class ItemCreate(CreateView):
         return super().form_valid(form)
 
 
-class ItemUpdate(UpdateView):
+class ItemUpdate(LoginRequiredMixin, UpdateView):
     model = Item
     fields = ['name', 'price', 'qty']
 
 
-class ItemDelete(DeleteView):
+class ItemDelete(LoginRequiredMixin, DeleteView):
     model = Item
     success_url = '/items/'
+
+
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    # This is how to create a 'user' form object
+    # that includes the data from the browser
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      # This will add the user to the database
+      user = form.save()
+      # This is how we log a user in via code
+      login(request, user)
+      return redirect('index')
+    else:
+      error_message = 'Invalid sign up - try again'
+  # A bad POST or a GET request, so render signup.html with an empty form
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'registration/signup.html', context)
