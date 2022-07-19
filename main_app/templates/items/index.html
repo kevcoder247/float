@@ -1,12 +1,12 @@
 {%extends 'base.html'%} {%block content%}
-<h1>My Items List</h1>
+<h1>My Products</h1>
 {%for item in items%}
 <div class="card">
     <a href="{% url 'detail' item.id %}">
         <div class="card-content">
             <span class="card-title">{{item.name}}</span>
             <p>Price: ${{item.price}}</p>
-            <p>Qty: #{{item.qty}}</p>
+            <p>Qty: {{item.qty}}</p>
         </div>
     </a>
 </div>

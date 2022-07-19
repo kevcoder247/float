@@ -1,19 +1,27 @@
 from django.shortcuts import render, redirect
-from .models import Item
+from .models import Item, Photo
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+import uuid
+import boto3
+
+S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/' 
+
+BUCKET = 'float-app-bucket'
+
 
 # Create your views here.
-
 def home(request):
     items = Item.objects.all()
     return render(request,'home.html', {'items': items})
 
 def about(request):
+    print(request.user)
     return render(request, 'about.html')
+
 
 '''
 #Seed Data
@@ -38,7 +46,26 @@ def items_index(request):
 @login_required
 def item_detail(request, item_id):
     item = Item.objects.get(id=item_id)
-    return render(request, 'items/detail.html', {'item' : item})
+    user = request.user
+    return render(request, 'items/detail.html', {'item' : item, 'current_user': user})
+
+
+def add_photo(request, item_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = Photo(url=url, item_id=item_id)
+            photo.save()
+        except:
+            print('An error occured uploading photo')
+            return redirect('detail', item_id=item_id)
+
+        return redirect('detail', item_id=item_id)
+
 
 #Class Based Views
 class ItemCreate(LoginRequiredMixin, CreateView):
@@ -78,3 +105,13 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+
+
+
+
+
+
+
+
+
