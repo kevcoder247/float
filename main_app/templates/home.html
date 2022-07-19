@@ -1,7 +1,16 @@
 {%extends 'base.html'%} {%block content%}
+{% if user.is_authenticated %}
 <h1>All Items</h1>
-{{items.name}}
+{% else %}
+<h1>Welcome To Float</h1>
+{% endif %}
+
+
+
 {% for item in items%}
+
+{% if user.is_authenticated %}
+
 <div class="card">
     <a href="{% url 'detail' item.id %}">
         <div class="card-content">
@@ -11,5 +20,8 @@
         </div>
     </a>
 </div>
+
+{% endif %}
+
 {%endfor%}
 {%endblock%}
