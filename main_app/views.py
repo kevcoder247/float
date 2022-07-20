@@ -16,6 +16,8 @@ BUCKET = 'float-app-bucket'
 # Create your views here.
 def home(request):
     items = Item.objects.all()
+    #photo = Photo.objects.get(item_id=item_id)
+    #print(photo.url)
     return render(request,'home.html', {'items': items})
 
 def about(request):
@@ -47,7 +49,9 @@ def items_index(request):
 @login_required
 def item_detail(request, item_id):
     item = Item.objects.get(id=item_id)
+   
     user = request.user
+   
     return render(request, 'items/detail.html', {'item' : item, 'current_user': user})
 
 

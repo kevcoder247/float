@@ -1,6 +1,8 @@
 body{
-    background-color: grey;
+    background-color: rgb(211, 209, 209);
     color: white;
+    font-family: 'Edu NSW ACT Foundation', cursive;
+    font-weight: bolder;
 }
 
 nav{
@@ -17,17 +19,38 @@ nav .brand-logo{
 
 h1{
     text-align: center;
+    color: black;
+    font-family: 'Edu NSW ACT Foundation', cursive;
+    font-weight: bold;
 }
-.container{
-    background-color: green;
+/* .container{
     border: 3px solid red;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    margin-top: 30px;
+} */
+
+main.login{
+    /* background-color: aqua; */
 }
+
 .card{
     width: 300px;
     margin: 5px;
+    margin: auto;
+    margin-bottom: 5px;
+    text-align: center;
+}
+p{
+    font-size: 30px;
+}
 
+label{
+    font-size: 20px;
+}
+
+.homeText{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+    color: black;
 }
