@@ -1,4 +1,6 @@
 {% extends 'base.html' %} {% block content %}
+
+
 <h1>{{item.name}}</h1>
 <div class="card">
     {% for photo in item.photo_set.all %}
@@ -27,6 +29,7 @@
         <a href="{% url 'item_delete' item.id %}">Delete</a>
         {% endif %}
     </div>
+
     <form action="{% url 'add_photo' item.id%}" enctype="multipart/form-data" method="POST" class="card-panel">
         {% csrf_token %}
         <input type="file" name="photo-file" />

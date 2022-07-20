@@ -51,6 +51,7 @@ def item_detail(request, item_id):
     return render(request, 'items/detail.html', {'item' : item, 'current_user': user})
 
 
+
 def add_photo(request, item_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
