@@ -38,6 +38,7 @@ items = [
     Item('Laptop', '$10.99', 3),
 ]
 '''
+
 @login_required
 def items_index(request):
    items = Item.objects.filter(user=request.user)
@@ -65,6 +66,7 @@ def add_photo(request, item_id):
             return redirect('detail', item_id=item_id)
 
         return redirect('detail', item_id=item_id)
+
 
 
 #Class Based Views
