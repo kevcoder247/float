@@ -1,10 +1,11 @@
 {%extends 'base.html'%} {%block content%}
-<h1>My Products</h1>
+<!-- <h1>My Products</h1> -->
+<hr>
 {%for item in items%}
-
 <div class="card">
     <a href="{% url 'detail' item.id %}">
         <div class="card-content">
+            <img class="responsive-img card-panel" src="{{photo.url}}" alt="{{item.name}}">
             <span class="card-title">{{item.name}}</span>
             <p>Price: ${{item.price}}</p>
             <p>Qty: {{item.qty}}</p>

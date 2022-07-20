@@ -1,7 +1,9 @@
 {%extends 'base.html'%} {%block content%}
 
 {% if user.is_authenticated %}
-<h1>Products</h1>
+<!-- <h1>Products</h1> -->
+
+<hr>
 {% else %}
 <h1>Welcome To Float</h1>
 <hr>
@@ -14,6 +16,8 @@
 <div class="card">
     <a href="{% url 'detail' item.id %}">
         <div class="card-content">
+            <!-- fix broken image -->
+            <img class="responsive-img card-panel" src="{{photo.url}}" alt="{{item.name}}">
             <span class="card-title">{{item.name}}</span>
             <p>Price: ${{item.price}}</p>
             <p>Qty: {{item.qty}}</p>

@@ -18,3 +18,16 @@ nav .brand-logo{
 h1{
     text-align: center;
 }
+.container{
+    background-color: green;
+    border: 3px solid red;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 30px;
+}
+.card{
+    width: 300px;
+    margin: 5px;
+
+}
